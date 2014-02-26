@@ -517,22 +517,22 @@ void HarfBuzzShaper::setGlyphPositionsForHarfBuzzRun(HarfBuzzRun* currentRun, hb
     uint16_t* glyphToCharacterIndexes = currentRun->glyphToCharacterIndexes();
     float totalAdvance = 0;
 
-#ifdef REVERIE 
+#ifdef REVERIE
     int reverie = 0;
     uint16_t *unichar = NULL;
     SkScalar *advanceWidth = NULL;
-    if(numGlyphs > 1){  
-    	unichar = new uint16_t[numGlyphs+4];
-    	advanceWidth = new SkScalar[numGlyphs+4];
-    	for (size_t i = 0; i < numGlyphs; ++i) {
-        	unichar[i] = currentFontData->getCharacter(glyphInfos[i].codepoint);
-            if((unichar[i] >= 0x900 && unichar[i] <= 0xaff) || (unichar[i] >= 0xb80 
-            	&& unichar[i] <= 0xd7f) || (unichar[i] >= 0xe00 && unichar[i] <= 0xe7f))
-            	reverie = 1;
-    	}
-    	if(reverie==1){
-        	int ret = currentFontData->getAdvances(unichar,numGlyphs,advanceWidth);
-    	}
+    if(numGlyphs > 1){
+        unichar = new uint16_t[numGlyphs+4];
+        advanceWidth = new SkScalar[numGlyphs+4];
+        for (size_t i = 0; i < numGlyphs; ++i){
+            unichar[i] = currentFontData->getCharacter(glyphInfos[i].codepoint);
+            if((unichar[i] >= 0x900 && unichar[i] <= 0xaff) || (unichar[i] >= 0xb80
+                && unichar[i] <= 0xd7f) || (unichar[i] >= 0xe00 && unichar[i] <= 0xe7f))
+                reverie = 1;
+         }
+         if(reverie==1){
+            int ret = currentFontData->getAdvances(unichar,numGlyphs,advanceWidth);
+         }
     }
 #endif
 
@@ -581,12 +581,12 @@ void HarfBuzzShaper::setGlyphPositionsForHarfBuzzRun(HarfBuzzRun* currentRun, hb
 
 #ifdef REVERIE
     if(numGlyphs > 1){
-		if(unichar){
+        if(unichar){
             delete(unichar);
             unichar = NULL;
-    	}
-		if(advanceWidth){
-        	delete(advanceWidth);
+        }
+        if(advanceWidth){
+            delete(advanceWidth);
             advanceWidth = NULL;
         }
     }
