@@ -192,7 +192,8 @@ public:
 
 #ifdef REVERIE      
     virtual uint16_t getCharacter(uint16_t val) const;
-    virtual int getAdvances(uint16_t *unichar,int numGlyphs,float *advances) const;
+    virtual int getAdvances(uint16_t *unichar,int numGlyphs,
+        float *advances) const;
 #endif
 
 private:
