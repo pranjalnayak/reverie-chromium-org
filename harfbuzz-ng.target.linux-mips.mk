@@ -57,6 +57,7 @@ LOCAL_SRC_FILES := \
 MY_CFLAGS_Debug := \
 	-fstack-protector \
 	--param=ssp-buffer-size=4 \
+	 \
 	-fno-exceptions \
 	-fno-strict-aliasing \
 	-Wno-unused-parameter \
@@ -65,9 +66,8 @@ MY_CFLAGS_Debug := \
 	-pipe \
 	-fPIC \
 	-Wno-format \
-	-fno-tree-sra \
-	-fuse-ld=gold \
-	-Wno-psabi \
+	-EL \
+	-mhard-float \
 	-ffunction-sections \
 	-funwind-tables \
 	-g \
@@ -137,7 +137,7 @@ LOCAL_CPPFLAGS_Debug := \
 	-fno-threadsafe-statics \
 	-fvisibility-inlines-hidden \
 	-Wno-deprecated \
-	-Wno-abi \
+	-Wno-uninitialized \
 	-Wno-error=c++0x-compat \
 	-Wno-non-virtual-dtor \
 	-Wno-sign-promo \
@@ -148,6 +148,7 @@ LOCAL_CPPFLAGS_Debug := \
 MY_CFLAGS_Release := \
 	-fstack-protector \
 	--param=ssp-buffer-size=4 \
+	 \
 	-fno-exceptions \
 	-fno-strict-aliasing \
 	-Wno-unused-parameter \
@@ -156,9 +157,8 @@ MY_CFLAGS_Release := \
 	-pipe \
 	-fPIC \
 	-Wno-format \
-	-fno-tree-sra \
-	-fuse-ld=gold \
-	-Wno-psabi \
+	-EL \
+	-mhard-float \
 	-ffunction-sections \
 	-funwind-tables \
 	-g \
@@ -228,7 +228,7 @@ LOCAL_CPPFLAGS_Release := \
 	-fno-threadsafe-statics \
 	-fvisibility-inlines-hidden \
 	-Wno-deprecated \
-	-Wno-abi \
+	-Wno-uninitialized \
 	-Wno-error=c++0x-compat \
 	-Wno-non-virtual-dtor \
 	-Wno-sign-promo \
@@ -245,13 +245,11 @@ LOCAL_LDFLAGS_Debug := \
 	-Wl,-z,relro \
 	-Wl,-z,noexecstack \
 	-fPIC \
-	-Wl,-z,relro \
-	-Wl,-z,now \
-	-fuse-ld=gold \
+	-EL \
+	-Wl,--no-keep-memory \
 	-nostdlib \
 	-Wl,--no-undefined \
 	-Wl,--exclude-libs=ALL \
-	-Wl,--icf=safe \
 	-Wl,--fatal-warnings \
 	-Wl,--gc-sections \
 	-Wl,--warn-shared-textrel \
@@ -264,13 +262,11 @@ LOCAL_LDFLAGS_Release := \
 	-Wl,-z,relro \
 	-Wl,-z,noexecstack \
 	-fPIC \
-	-Wl,-z,relro \
-	-Wl,-z,now \
-	-fuse-ld=gold \
+	-EL \
+	-Wl,--no-keep-memory \
 	-nostdlib \
 	-Wl,--no-undefined \
 	-Wl,--exclude-libs=ALL \
-	-Wl,--icf=safe \
 	-Wl,-O1 \
 	-Wl,--as-needed \
 	-Wl,--gc-sections \
@@ -279,6 +275,7 @@ LOCAL_LDFLAGS_Release := \
 
 
 LOCAL_LDFLAGS := $(LOCAL_LDFLAGS_$(GYP_CONFIGURATION))
+
 
 ifeq ($(MULTI_LANG_ENGINE),REVERIE)
 LOCAL_CFLAGS += -DREVERIE
