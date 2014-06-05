@@ -35,6 +35,9 @@
 
 #include <locale.h>
 
+#ifdef ANDROID
+#include <sys/system_properties.h>
+#endif
 
 /* hb_options_t */
 
@@ -50,10 +53,25 @@ _hb_options_init (void)
   char *c = getenv ("HB_OPTIONS");
   u.opts.uniscribe_bug_compatible = c && strstr (c, "uniscribe-bug-compatible");
 
+#ifdef REVERIE
+  u.opts.use_reverie = false;
+#ifdef ANDROID
+  char prop_val[PROP_VALUE_MAX];
+  int len = __system_property_get("swe.reverie.text.shapper", prop_val);
+  if(len > 0 && atoi(prop_val) == 1)
+    u.opts.use_reverie = true;
+#endif
+#endif //REVERIE
   /* This is idempotent and threadsafe. */
   _hb_options = u;
 }
 
+#ifdef REVERIE
+bool hb_use_reverie()
+{
+    return hb_options().use_reverie;
+}
+#endif
 
 /* hb_tag_t */
 

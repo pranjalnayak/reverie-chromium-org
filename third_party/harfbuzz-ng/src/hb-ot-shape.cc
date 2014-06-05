@@ -574,16 +574,46 @@ hb_ot_shape_internal (hb_ot_shape_context_t *c)
   HB_BUFFER_ALLOCATE_VAR (c->buffer, unicode_props0);
   HB_BUFFER_ALLOCATE_VAR (c->buffer, unicode_props1);
 
-  c->buffer->clear_output ();
+#ifdef REVERIE  //REVERIE Changes
+  if(hb_options().use_reverie &&
+    ((c->buffer->info[0].codepoint>=0x900 && c->buffer->info[0].codepoint<=0xaff) ||
+     (c->buffer->info[0].codepoint>=0xb80 && c->buffer->info[0].codepoint<=0xd7f) ||
+     (c->buffer->info[0].codepoint>=0xe00 && c->buffer->info[0].codepoint<=0xe7f)))
+  {
 
-  hb_set_unicode_props (c->buffer);
-  hb_insert_dotted_circle (c->buffer, c->font);
-  hb_form_clusters (c->buffer);
+    int i, len = c->buffer->len;
+    unsigned int syllable[1024];
 
-  hb_ensure_native_direction (c->buffer);
+    for(i=0;i<len;i++) {
+      c->font->get_glyph(c->buffer->info[i].codepoint,0,(syllable + i));
+    }
+    c->buffer->clear_output();
+    c->buffer->idx = 0;
 
-  hb_ot_substitute (c);
-  hb_ot_position (c);
+    for(i=0;i<len;i++){
+      c->buffer->cur().codepoint = syllable[i];
+      c->buffer->next_glyph();
+      c->buffer->info[i].codepoint = syllable[i];
+    }
+
+    c->buffer->len = len;
+    c->buffer->swap_buffers();
+  }
+  else
+#endif //REVERIE Changes end
+  {
+    c->buffer->clear_output ();
+
+    hb_set_unicode_props (c->buffer);
+    hb_insert_dotted_circle (c->buffer, c->font);
+    hb_form_clusters (c->buffer);
+
+    hb_ensure_native_direction (c->buffer);
+
+    hb_ot_substitute (c);
+    hb_ot_position (c);
+
+  } //REVERIE Changed line
 
   hb_ot_hide_default_ignorables (c);
 

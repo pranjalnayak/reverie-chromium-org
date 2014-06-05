@@ -301,6 +301,8 @@ hb_script_to_iso15924_tag (hb_script_t script);
 hb_direction_t
 hb_script_get_horizontal_direction (hb_script_t script);
 
+bool
+hb_use_reverie(void);
 
 /* User data */
 

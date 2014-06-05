@@ -875,6 +875,7 @@ struct hb_options_t
 {
   int initialized : 1;
   int uniscribe_bug_compatible : 1;
+  int use_reverie : 1;
 };
 
 union hb_options_union_t {
