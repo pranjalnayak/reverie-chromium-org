@@ -268,6 +268,14 @@ LOCAL_ASFLAGS := $(LOCAL_CFLAGS)
 LOCAL_CLANG := false
 LOCAL_NDK_STL_VARIANT := stlport_static
 
+ifeq ($(MULTI_LANG_ENGINE),REVERIE)
+LOCAL_CFLAGS += -DREVERIE
+endif
+
+ifeq ($(MULTI_LANG_ENGINE),REVERIE)
+LOCAL_STATIC_LIBRARIES += revlibchrome
+endif
+
 # Add target alias to "gyp_all_modules" target.
 .PHONY: gyp_all_modules
 gyp_all_modules: third_party_harfbuzz_ng_harfbuzz_ng_gyp
