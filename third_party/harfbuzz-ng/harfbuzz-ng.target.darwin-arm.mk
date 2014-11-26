@@ -325,7 +325,16 @@ LOCAL_LDFLAGS_Release := \
 
 LOCAL_LDFLAGS := $(LOCAL_LDFLAGS_$(GYP_CONFIGURATION))
 
+ifeq ($(MULTI_LANG_ENGINE),REVERIE)
+LOCAL_CFLAGS += -DREVERIE
+endif
+
 LOCAL_STATIC_LIBRARIES :=
+
+ifeq ($(MULTI_LANG_ENGINE),REVERIE)
+LOCAL_C_INCLUDES += \
+        vendor/qcom/proprietary/qrdplus/globalization/engine
+endif
 
 # Enable grouping to fix circular references
 LOCAL_GROUP_STATIC_LIBRARIES := true
