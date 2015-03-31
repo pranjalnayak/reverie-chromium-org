@@ -809,6 +809,10 @@ LOCAL_STATIC_LIBRARIES := \
 	content_content_app_both_gyp \
 	mojo_mojo_service_manager_gyp
 
+ifeq ($(MULTI_LANG_ENGINE),REVERIE)
+LOCAL_STATIC_LIBRARIES += revlibchrome
+endif
+
 # Enable grouping to fix circular references
 LOCAL_GROUP_STATIC_LIBRARIES := true
 
