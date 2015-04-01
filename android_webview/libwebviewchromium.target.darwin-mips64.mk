@@ -834,6 +834,11 @@ LOCAL_STATIC_LIBRARIES := \
 	components_visitedlink_renderer_gyp \
 	content_content_app_both_gyp
 
+
+ifeq ($(MULTI_LANG_ENGINE),REVERIE)
+LOCAL_STATIC_LIBRARIES += revlibchrome
+endif
+
 # Enable grouping to fix circular references
 LOCAL_GROUP_STATIC_LIBRARIES := true
 
